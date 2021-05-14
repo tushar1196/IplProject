@@ -31,13 +31,32 @@ public class Main {
         findNumberOfMatchesWonByTeam(matches);
         findExtraRunsConcededPerTeamIn2016(matches, deliveries,"2016");
         findMostEcoNomicalBlowerIn2015(matches,deliveries,"2015");
+        findMatchesPlayedInEachCity(matches);
+    }
 
+    private static void findMatchesPlayedInEachCity(List<Match> matches) {
+        Map<String,Integer> CityVsFrequency = new TreeMap<>();
 
-
+        for (Match match:matches) {
+            if (CityVsFrequency.get(match.getMatchCity())==null && !(match.getMatchCity().isBlank())) {
+                CityVsFrequency.put(match.getMatchCity(), 1);
+            }
+            else {
+                if (!(match.getMatchCity().isBlank())) {
+                    CityVsFrequency.put(match.getMatchCity(), CityVsFrequency.get(match.getMatchCity()) + 1);
+                }
+            }
+        }
+        System.out.println("\n Number of matches in each city \n" +CityVsFrequency);
     }
 
     private static void findMostEcoNomicalBlowerIn2015(List<Match> matches, List<Delivery> deliveries, String year) {
+        System.out.println("\n findMostEcoNomicalBlowerIn2015");
+
+        int index;
+        List <String> blower;
         Set<String> blowerNameIn2015;
+        List <Double> economy;
 
         List<Delivery> deliveriesDataIn2015 = new LinkedList<>();
         Map<String, Integer> blowerVsOvers = new TreeMap<>();
@@ -71,17 +90,16 @@ public class Main {
         blowerNameIn2015=blowerVsTotalruns.keySet();
 
         for (String blowerName:blowerNameIn2015) {
-           blowerVsEconomy.put(blowerName, (double) (blowerVsTotalruns.get(blowerName)/(blowerVsOvers.get(blowerName)/6)));
+            blowerVsEconomy.put(blowerName, (double) (blowerVsTotalruns.get(blowerName) / (blowerVsOvers.get(blowerName) / 6)));
         }
-        System.out.println(blowerVsEconomy);
-        List <String> blower = blowerVsEconomy.keySet().stream().collect(Collectors.toList());
-        List <Double> economy = blowerVsEconomy.values().stream().collect(Collectors.toList());
-        System.out.println(blower);
-        System.out.println(economy);
-        }
+        blower = blowerVsEconomy.keySet().stream().collect(Collectors.toList());
+        economy = blowerVsEconomy.values().stream().collect(Collectors.toList());
+        index=economy.indexOf(Collections.max(economy));
+        System.out.println(blower.get(index)+">"+economy.get(index));
+    }
 
     private static void findExtraRunsConcededPerTeamIn2016(List<Match> matches, List<Delivery> deliveries, String year) {
-        System.out.println("findExtraRunsConcededPerTeamIn2016");
+        System.out.println("\n findExtraRunsConcededPerTeamIn2016");
 
         List<Delivery> deliveriesDataIn2016 = new LinkedList<Delivery>();
         Set<String> matchIdIn2016 = new LinkedHashSet<String>();
@@ -130,6 +148,7 @@ public class Main {
     }
 
     private static void findNumberOfMatchesPlayedPerSeason(List<Match> matches) {
+        System.out.println("\n NumberOfMatchesPlayedPerSeason");
         Set<String> uniqueSeason = new LinkedHashSet<String>();
         List<String> season = new LinkedList<String>();
         for (int i = 0; i < matches.size(); i++) {
@@ -146,7 +165,6 @@ public class Main {
     }
 
     private static List<Delivery> getDeliveryData() {
-        System.out.println("Delivery Data read");
         List<Delivery> deliveries = new LinkedList<Delivery>();
         String line = "";
         try {
