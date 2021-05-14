@@ -29,11 +29,55 @@ public class Main {
         findNumberOfMatchesPlayedPerSeason(matches);
         findNumberOfMatchesWonByTeam(matches);
         findExtraRunsConcededPerTeamIn2016(matches, deliveries,"2016");
+        findMostEcoNomicalBlowerIn2015(matches,deliveries,"2015");
+
+
+
+    }
+
+    private static void findMostEcoNomicalBlowerIn2015(List<Match> matches, List<Delivery> deliveries, String year) {
+        List<Delivery> deliveriesDataIn2015 = new LinkedList<>();
+        Map<String, Integer> blowerVsBalls = new TreeMap<>();
+        Map<String, Integer> blowerVsTotalruns = new TreeMap<>();
+        Set<String> matchIdIn2015 = new HashSet<>();
+        for (Match match:matches) {
+            if (match.getMatchSeason().equals(year)) {
+                matchIdIn2015.add(match.getMatchId());
+            }
+        }
+        for (Delivery delivery:deliveries) {
+            if(matchIdIn2015.contains(delivery.getDeliveryMatchId())) {
+                deliveriesDataIn2015.add(delivery);
+            }
+        }
+
+
+
+
+
+
+
+
+
 
 
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private static void findExtraRunsConcededPerTeamIn2016(List<Match> matches, List<Delivery> deliveries, String year) {
         System.out.println("findExtraRunsConcededPerTeamIn2016");
