@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static final int DELIVERY_BLOWING_TEAM = 3;
@@ -36,10 +37,14 @@ public class Main {
     }
 
     private static void findMostEcoNomicalBlowerIn2015(List<Match> matches, List<Delivery> deliveries, String year) {
+        Set<String> blowerNameIn2015;
+
         List<Delivery> deliveriesDataIn2015 = new LinkedList<>();
-        Map<String, Integer> blowerVsBalls = new TreeMap<>();
+        Map<String, Integer> blowerVsOvers = new TreeMap<>();
         Map<String, Integer> blowerVsTotalruns = new TreeMap<>();
+        Map<String,Double> blowerVsEconomy = new TreeMap<>();
         Set<String> matchIdIn2015 = new HashSet<>();
+
         for (Match match:matches) {
             if (match.getMatchSeason().equals(year)) {
                 matchIdIn2015.add(match.getMatchId());
@@ -50,34 +55,30 @@ public class Main {
                 deliveriesDataIn2015.add(delivery);
             }
         }
+        for (Delivery delivery:deliveriesDataIn2015) {
+            if(blowerVsOvers.get(delivery.getDeliveryBlower())==null) {
+                int overs=(Integer.parseInt(delivery.getDeliveryBall())+ 6*(Integer.parseInt(delivery.getDeliveryOver())))/6;
+                blowerVsOvers.put(delivery.getDeliveryBlower(),overs);
+                blowerVsTotalruns.put(delivery.getDeliveryBlower(),Integer.parseInt(delivery.getDeliveryTotalRuns()));
+            }
+            else {
+                int overs=blowerVsOvers.get(delivery.getDeliveryBlower())+Integer.parseInt(delivery.getDeliveryBall())+ 6*(Integer.parseInt(delivery.getDeliveryOver()))/6;
+                blowerVsOvers.put(delivery.getDeliveryBlower(),overs);
+                blowerVsTotalruns.put(delivery.getDeliveryBlower(),blowerVsTotalruns.get(delivery.getDeliveryBlower())+Integer.parseInt(delivery.getDeliveryTotalRuns()));
+            }
+        }
+        blowerNameIn2015=blowerVsOvers.keySet();
+        blowerNameIn2015=blowerVsTotalruns.keySet();
 
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        for (String blowerName:blowerNameIn2015) {
+           blowerVsEconomy.put(blowerName, (double) (blowerVsTotalruns.get(blowerName)/(blowerVsOvers.get(blowerName)/6)));
+        }
+        System.out.println(blowerVsEconomy);
+        List <String> blower = blowerVsEconomy.keySet().stream().collect(Collectors.toList());
+        List <Double> economy = blowerVsEconomy.values().stream().collect(Collectors.toList());
+        System.out.println(blower);
+        System.out.println(economy);
+        }
 
     private static void findExtraRunsConcededPerTeamIn2016(List<Match> matches, List<Delivery> deliveries, String year) {
         System.out.println("findExtraRunsConcededPerTeamIn2016");
