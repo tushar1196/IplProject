@@ -6,8 +6,7 @@ import com.tushar.Model.Match;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static final int DELIVERY_BLOWING_TEAM = 3;
@@ -21,13 +20,84 @@ public class Main {
     public static final int MATCH_TOSS_WINNER = 6;
     public static final int SEASON = 1;
     public static final int MATCH_ID = 0;
-    private static final int MATCH_CITY = 2;
+    public static final int MATCH_CITY = 2;
 
     public static void main(String[] args) {
         List<Match> matches = getMatchData();
         List<Delivery> deliveries = getDeliveryData();
 
-        
+        findNumberOfMatchesPlayedPerSeason(matches);
+        findNumberOfMatchesWonByTeam(matches);
+        findExtraRunsConcededPerTeamIn2016(matches, deliveries,"2016");
+
+
+
+
+    }
+
+    private static void findExtraRunsConcededPerTeamIn2016(List<Match> matches, List<Delivery> deliveries, String year) {
+        System.out.println("findExtraRunsConcededPerTeamIn2016");
+
+        List<Delivery> deliveriesDataIn2016 = new LinkedList<Delivery>();
+        Set<String> matchIdIn2016 = new LinkedHashSet<String>();
+        Map <String,Integer> extraRunsConcended = new HashMap<>();
+
+
+        for (Match match : matches) {
+            if(match.getMatchSeason().equals(year)) {
+                matchIdIn2016.add(match.getMatchId());
+            }
+        }
+        for (Delivery delivery : deliveries) {
+            if(matchIdIn2016.contains(delivery.getDeliveryMatchId())) {
+                deliveriesDataIn2016.add(delivery);
+            }
+        }
+        for (Delivery delivery : deliveriesDataIn2016) {
+            if (extraRunsConcended.get(delivery.getDeliveryBlowingTeam()) == null) {
+                extraRunsConcended.put(delivery.getDeliveryBlowingTeam(), Integer.parseInt(delivery.getDeliveryExtraRuns()));
+            } else {
+                extraRunsConcended.put(delivery.getDeliveryBlowingTeam(), extraRunsConcended.get(delivery.getDeliveryBlowingTeam()) + Integer.parseInt(delivery.getDeliveryExtraRuns()));
+            }
+        }
+        System.out.println(extraRunsConcended);
+    }
+
+    private static void findNumberOfMatchesWonByTeam(List<Match> matches) {
+        System.out.println("\nNo of matches won by team ");
+        Set<String> uniqueWinners = new LinkedHashSet<String>();
+        List<String> winners = new LinkedList<String>();
+        for (int i = 0; i < matches.size(); i++) {
+            uniqueWinners.add(matches.get(i).getMatchwinner());
+            winners.add(matches.get(i).getMatchwinner());
+        }
+        Iterator iterator = uniqueWinners.iterator();
+        iterator.next();
+        while (iterator.hasNext()) {
+            String oneWinner = (String) iterator.next();
+            int frequency = Collections.frequency(winners, oneWinner);
+            if (oneWinner.length() == 0) {
+                continue;
+            } else {
+                System.out.println(oneWinner + "=" + frequency);
+            }
+        }
+    }
+
+    private static void findNumberOfMatchesPlayedPerSeason(List<Match> matches) {
+        Set<String> uniqueSeason = new LinkedHashSet<String>();
+        List<String> season = new LinkedList<String>();
+        for (int i = 0; i < matches.size(); i++) {
+            season.add(matches.get(i).getMatchSeason());
+            uniqueSeason.add(matches.get(i).getMatchSeason());
+        }
+        Iterator iterator = uniqueSeason.iterator();
+        iterator.next();
+        while (iterator.hasNext()) {
+            String oneSeason = (String) iterator.next();
+            int frequency = Collections.frequency(season, oneSeason);
+            System.out.println(oneSeason + "=" + frequency);
+        }
     }
 
     private static List<Delivery> getDeliveryData() {
@@ -35,7 +105,7 @@ public class Main {
         List<Delivery> deliveries = new LinkedList<Delivery>();
         String line = "";
         try {
-            final BufferedReader br = new BufferedReader(new FileReader("E:\\mountblue\\Ipl project\\archive\\deliveries.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("E:\\mountblue\\Ipl project\\archive\\deliveries.csv"));
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
 
@@ -50,19 +120,18 @@ public class Main {
 
                 deliveries.add(delivery);
             }
-        } catch (final IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         return deliveries;
-
     }
 
     private static List<Match> getMatchData() {
-        System.out.println("Match Data read");
-        final List<Match> matches = new LinkedList<Match>();
+        List<Match> matches = new LinkedList<Match>();
         String line = "";
         try {
-            final BufferedReader br = new BufferedReader(new FileReader("E:\\mountblue\\Ipl project\\archive\\matches.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("E:\\mountblue\\Ipl project\\archive\\matches.csv"));
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
 
