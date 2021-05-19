@@ -1,67 +1,67 @@
 package com.tushar.Model;
 
 public class Delivery {
-    private String deliveryMatchId;
-    private String deliveryOver;
-    private String deliveryBall;
-    private String deliveryBlower;
-    private String deliveryExtraRuns;
-    private String deliveryTotalRuns;
-    private String deliveryBlowingTeam;
+    private String matchId;
+    private String over;
+    private String ball;
+    private String blower;
+    private String extraRuns;
+    private String totalRuns;
+    private String blowingTeam;
 
-    public String getDeliveryMatchId() {
-        return deliveryMatchId;
+    public String getMatchId() {
+        return matchId;
     }
 
-    public void setDeliveryMatchId(String deliveryMatchId) {
-        this.deliveryMatchId = deliveryMatchId;
+    public void setMatchId(String matchId) {
+        this.matchId = matchId;
     }
 
-    public String getDeliveryOver() {
-        return deliveryOver;
+    public String getOver() {
+        return over;
     }
 
-    public void setDeliveryOver(String deliveryOver) {
-        this.deliveryOver = deliveryOver;
+    public void setOver(String over) {
+        this.over = over;
     }
 
-    public String getDeliveryBall() {
-        return deliveryBall;
+    public String getBall() {
+        return ball;
     }
 
-    public void setDeliveryBall(String deliveryBall) {
-        this.deliveryBall = deliveryBall;
+    public void setBall(String ball) {
+        this.ball = ball;
     }
 
-    public String getDeliveryBlower() {
-        return deliveryBlower;
+    public String getBlower() {
+        return blower;
     }
 
-    public void setDeliveryBlower(String deliveryBlower) {
-        this.deliveryBlower = deliveryBlower;
+    public void setBlower(String blower) {
+        this.blower = blower;
     }
 
-    public String getDeliveryExtraRuns() {
-        return deliveryExtraRuns;
+    public String getExtraRuns() {
+        return extraRuns;
     }
 
-    public void setDeliveryExtraRuns(String deliveryExtraRuns) {
-        this.deliveryExtraRuns = deliveryExtraRuns;
+    public void setExtraRuns(String extraRuns) {
+        this.extraRuns = extraRuns;
     }
 
-    public String getDeliveryTotalRuns() {
-        return deliveryTotalRuns;
+    public String getTotalRuns() {
+        return totalRuns;
     }
 
-    public void setDeliveryTotalRuns(String deliveryTotalRuns) {
-        this.deliveryTotalRuns = deliveryTotalRuns;
+    public void setTotalRuns(String totalRuns) {
+        this.totalRuns = totalRuns;
     }
 
-    public String getDeliveryBlowingTeam() {
-        return deliveryBlowingTeam;
+    public String getBlowingTeam() {
+        return blowingTeam;
     }
 
-    public void setDeliveryBlowingTeam(String deliveryBlowingTeam) {
-        this.deliveryBlowingTeam = deliveryBlowingTeam;
+    public void setBlowingTeam(String blowingTeam) {
+        this.blowingTeam = blowingTeam;
     }
 }

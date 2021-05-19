@@ -1,49 +1,49 @@
 package com.tushar.Model;
 
 public class Match {
-    private String matchId;
-    private String matchSeason;
-    private String matchTossWinner;
-    private String matchwinner;
-    private String matchCity;
+    private String id;
+    private String season;
+    private String tossWinner;
+    private String winner;
+    private String city;
 
-    public String getMatchId() {
-        return matchId;
+    public String getId() {
+        return id;
     }
 
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getMatchSeason() {
-        return matchSeason;
+    public String getSeason() {
+        return season;
     }
 
-    public void setMatchSeason(String matchSeason) {
-        this.matchSeason = matchSeason;
+    public void setSeason(String season) {
+        this.season = season;
     }
 
-    public String getMatchTossWinner() {
-        return matchTossWinner;
+    public String getTossWinner() {
+        return tossWinner;
     }
 
-    public void setMatchTossWinner(String matchTossWinner) {
-        this.matchTossWinner = matchTossWinner;
+    public void setTossWinner(String tossWinner) {
+        this.tossWinner = tossWinner;
     }
 
-    public String getMatchwinner() {
-        return matchwinner;
+    public String getWinner() {
+        return winner;
     }
 
-    public void setMatchwinner(String matchwinner) {
-        this.matchwinner = matchwinner;
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
-    public String getMatchCity() {
-        return matchCity;
+    public String getCity() {
+        return city;
     }
 
-    public void setMatchCity(String matchCity) {
-        this.matchCity = matchCity;
+    public void setCity(String city) {
+        this.city = city;
     }
 }
