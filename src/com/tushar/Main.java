@@ -6,7 +6,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
+
+class ComparatorClass implements Comparator {
+    @Override
+    public int compare(Object o1, Object o2) {
+        return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
+    }
+}
 
 public class Main {
     public static final int DELIVERY_BLOWING_TEAM = 3;
@@ -34,24 +40,20 @@ public class Main {
     }
 
     private static void findMatchesPlayedInEachCity(List<Match> matches) {
-        Map<String,Integer> CityVsFrequency = new TreeMap<>();
+        Map<String,Integer> numberOfMatchesPlayedInCity = new HashMap<>();
 
         for (Match match:matches) {
-            if (CityVsFrequency.get(match.getCity())==null && !(match.getCity().isBlank())) {
-                CityVsFrequency.put(match.getCity(), 1);
+            if (numberOfMatchesPlayedInCity.get(match.getCity())==null && !(match.getCity().isBlank())) {
+                numberOfMatchesPlayedInCity.put(match.getCity(), 1);
             }
-            else {
-                if (!(match.getCity().isBlank())) {
-                    CityVsFrequency.put(match.getCity(), CityVsFrequency.get(match.getCity()) + 1);
-                }
+            else if (!(match.getCity().isBlank())) {
+                numberOfMatchesPlayedInCity.put(match.getCity(), numberOfMatchesPlayedInCity.get(match.getCity()) + 1);
             }
         }
-        System.out.println("\n Number Of Matches Played In Each City \n" +CityVsFrequency);
+        System.out.println("\n Number Of Matches Played In Each City \n" +numberOfMatchesPlayedInCity);
     }
 
     private static void findMostEconomicalBlowerIn2015(List<Match> matches, List<Delivery> deliveries) {
-        System.out.println("\n findMostEconomicalBlowerIn2015");
-
         List<Delivery> deliveriesDataIn2015 = new ArrayList<>();
         Set<String> matchIdIn2015 = new HashSet<>();
         Map<String, Integer> oversBolledByBlower = new HashMap<>();
@@ -94,10 +96,14 @@ public class Main {
                 }
             }
         }
-        System.out.println(economyRateOfBlower);
+        List <Map.Entry> list = new ArrayList<>(economyRateOfBlower.entrySet());
+        list.sort(new ComparatorClass());
+        System.out.println("\n Most Economical Blower In 2015 is:");
+        System.out.println(list.get(list.size()-1).getKey()+"="+list.get(list.size()-1).getValue());
     }
+
     private static void findExtraRunsConcededPerTeamIn2016(List<Match> matches, List<Delivery> deliveries) {
-        System.out.println("\n findExtraRunsConcededPerTeamIn2016");
+        System.out.println("\n Extra Runs Conceded Per Team In 2016:");
 
         List<Delivery> deliveriesDataIn2016 = new ArrayList<>();
         List<String> matchIdsIn2016 = new ArrayList<>();
@@ -139,14 +145,13 @@ public class Main {
     }
 
     private static void findNumberOfMatchesPlayedPerSeason(List<Match> matches) {
-        System.out.println("\n NumberOfMatchesPlayedPerSeason");
+        System.out.println("\n Number Of Matches Played Per Season:");
         Map<String,Integer> numberOfMatchesPerSeason = new HashMap<>();
         matches.remove(0);
         for (Match match: matches) {
             if(numberOfMatchesPerSeason.get(match.getSeason())==null) {
                 numberOfMatchesPerSeason.put(match.getSeason(),1);
-            }
-            else {
+            } else {
                 numberOfMatchesPerSeason.put(match.getSeason(),numberOfMatchesPerSeason.get(match.getSeason())+1);
             }
         }
