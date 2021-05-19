@@ -26,11 +26,11 @@ public class Main {
         List<Match> matches = getMatchData();
         List<Delivery> deliveries = getDeliveryData();
 
-        findNumberOfMatchesPlayedPerSeason(matches);
-        findNumberOfMatchesWonByTeam(matches);
-        findExtraRunsConcededPerTeamIn2016(matches, deliveries,"2016");
-        findMostEcoNomicalBlowerIn2015(matches,deliveries,"2015");
-        findMatchesPlayedInEachCity(matches);
+//        findNumberOfMatchesPlayedPerSeason(matches);
+//        findNumberOfMatchesWonByTeam(matches);
+//        findExtraRunsConcededPerTeamIn2016(matches, deliveries,"2016");
+//        findMostEcoNomicalBlowerIn2015(matches,deliveries,"2015");
+//        findMatchesPlayedInEachCity(matches);
     }
 
     private static void findMatchesPlayedInEachCity(List<Match> matches) {
@@ -193,7 +193,7 @@ public class Main {
         List<Match> matches = new LinkedList<Match>();
         String line = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader("E:\\mountblue\\Ipl project\\archive\\matches.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("../matches.csv"));
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
 
