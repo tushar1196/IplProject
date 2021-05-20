@@ -2,6 +2,7 @@ package com.tushar;
 
 import com.tushar.Model.Delivery;
 import com.tushar.Model.Match;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,28 +30,27 @@ public class Main {
     public static final int MATCH_CITY = 2;
 
     public static void main(String[] args) {
-        List<Match> matches = getMatchData();
-        List<Delivery> deliveries = getDeliveryData();
+        List<Match> matches = getMatchesData();
+        List<Delivery> deliveries = getDeliveriesData();
 
         findNumberOfMatchesPlayedPerSeason(matches);
         findNumberOfMatchesWonByTeam(matches);
         findExtraRunsConcededPerTeamIn2016(matches, deliveries);
-        findMostEconomicalBlowerIn2015(matches,deliveries);
+        findMostEconomicalBlowerIn2015(matches, deliveries);
         findMatchesPlayedInEachCity(matches);
     }
 
     private static void findMatchesPlayedInEachCity(List<Match> matches) {
-        Map<String,Integer> numberOfMatchesPlayedInCity = new HashMap<>();
+        Map<String, Integer> numberOfMatchesPlayedInCity = new HashMap<>();
 
-        for (Match match:matches) {
-            if (numberOfMatchesPlayedInCity.get(match.getCity())==null && !(match.getCity().isBlank())) {
+        for (Match match : matches) {
+            if (numberOfMatchesPlayedInCity.get(match.getCity()) == null && !(match.getCity().isBlank())) {
                 numberOfMatchesPlayedInCity.put(match.getCity(), 1);
-            }
-            else if (!(match.getCity().isBlank())) {
+            } else if (!(match.getCity().isBlank())) {
                 numberOfMatchesPlayedInCity.put(match.getCity(), numberOfMatchesPlayedInCity.get(match.getCity()) + 1);
             }
         }
-        System.out.println("\n Number Of Matches Played In Each City \n" +numberOfMatchesPlayedInCity);
+        System.out.println("\n Number Of Matches Played In Each City \n" + numberOfMatchesPlayedInCity);
     }
 
     private static void findMostEconomicalBlowerIn2015(List<Match> matches, List<Delivery> deliveries) {
@@ -74,10 +74,10 @@ public class Main {
         }
         for (Delivery delivery : deliveriesDataIn2015) {
             if (oversBolledByBlower.get(delivery.getBlower()) == null) {
-                int overs = (Integer.parseInt(delivery.getOver()) * 6 + Integer.parseInt(delivery.getBall()))/6;
+                int overs = (Integer.parseInt(delivery.getOver()) * 6 + Integer.parseInt(delivery.getBall())) / 6;
                 oversBolledByBlower.put(delivery.getBlower(), overs);
             } else {
-                int overs = (6 * (Integer.parseInt(delivery.getOver()) + oversBolledByBlower.get(delivery.getBlower())))/6;
+                int overs = (6 * (Integer.parseInt(delivery.getOver()) + oversBolledByBlower.get(delivery.getBlower()))) / 6;
                 oversBolledByBlower.put(delivery.getBlower(), overs);
             }
         }
@@ -88,7 +88,7 @@ public class Main {
                 totalRunsGaveByBlower.put(delivery.getBlower(), totalRunsGaveByBlower.get(delivery.getBlower()) + Integer.parseInt(delivery.getTotalRuns()));
             }
             for (String blowerName : blowerNameIn2015) {
-                if (totalRunsGaveByBlower.get(blowerName)==null || oversBolledByBlower.get(blowerName)==null) {
+                if (totalRunsGaveByBlower.get(blowerName) == null || oversBolledByBlower.get(blowerName) == null) {
                     continue;
                 } else {
                     double economy = ((double) totalRunsGaveByBlower.get(blowerName) / oversBolledByBlower.get(blowerName));
@@ -96,10 +96,10 @@ public class Main {
                 }
             }
         }
-        List <Map.Entry> list = new ArrayList<>(economyRateOfBlower.entrySet());
+        List<Map.Entry> list = new ArrayList<>(economyRateOfBlower.entrySet());
         list.sort(new ComparatorClass());
         System.out.println("\n Most Economical Blower In 2015 is:");
-        System.out.println(list.get(list.size()-1).getKey()+"="+list.get(list.size()-1).getValue());
+        System.out.println(list.get(list.size() - 1).getKey() + "=" + list.get(list.size() - 1).getValue());
     }
 
     private static void findExtraRunsConcededPerTeamIn2016(List<Match> matches, List<Delivery> deliveries) {
@@ -107,15 +107,15 @@ public class Main {
 
         List<Delivery> deliveriesDataIn2016 = new ArrayList<>();
         List<String> matchIdsIn2016 = new ArrayList<>();
-        Map <String,Integer> extraRunsConceded = new HashMap<>();
+        Map<String, Integer> extraRunsConceded = new HashMap<>();
 
         for (Match match : matches) {
-            if(match.getSeason().equals("2016")) {
+            if (match.getSeason().equals("2016")) {
                 matchIdsIn2016.add(match.getId());
             }
         }
         for (Delivery delivery : deliveries) {
-            if(matchIdsIn2016.contains(delivery.getMatchId())) {
+            if (matchIdsIn2016.contains(delivery.getMatchId())) {
                 deliveriesDataIn2016.add(delivery);
             }
         }
@@ -131,13 +131,13 @@ public class Main {
 
     private static void findNumberOfMatchesWonByTeam(List<Match> matches) {
         System.out.println("\nNo of matches won by team ");
-        Map<String,Integer> numberOfMatchesWonByTeam = new HashMap<>();
+        Map<String, Integer> numberOfMatchesWonByTeam = new HashMap<>();
         matches.remove(0);
-        for (Match match:matches) {
-            if (numberOfMatchesWonByTeam.get(match.getWinner())==null) {
-                numberOfMatchesWonByTeam.put(match.getWinner(),1);
+        for (Match match : matches) {
+            if (numberOfMatchesWonByTeam.get(match.getWinner()) == null) {
+                numberOfMatchesWonByTeam.put(match.getWinner(), 1);
             } else {
-                numberOfMatchesWonByTeam.put(match.getWinner(),numberOfMatchesWonByTeam.get(match.getWinner())+1);
+                numberOfMatchesWonByTeam.put(match.getWinner(), numberOfMatchesWonByTeam.get(match.getWinner()) + 1);
             }
         }
         numberOfMatchesWonByTeam.remove("");
@@ -146,19 +146,15 @@ public class Main {
 
     private static void findNumberOfMatchesPlayedPerSeason(List<Match> matches) {
         System.out.println("\n Number Of Matches Played Per Season:");
-        Map<String,Integer> numberOfMatchesPerSeason = new HashMap<>();
+        Map<String, Integer> numberOfMatchesPerSeason = new HashMap<>();
         matches.remove(0);
-        for (Match match: matches) {
-            if(numberOfMatchesPerSeason.get(match.getSeason())==null) {
-                numberOfMatchesPerSeason.put(match.getSeason(),1);
-            } else {
-                numberOfMatchesPerSeason.put(match.getSeason(),numberOfMatchesPerSeason.get(match.getSeason())+1);
-            }
+        for (Match match : matches) {
+            numberOfMatchesPerSeason.merge(match.getSeason(), 1, Integer::sum);
         }
         System.out.println(numberOfMatchesPerSeason);
     }
 
-    private static List<Delivery> getDeliveryData() {
+    private static List<Delivery> getDeliveriesData() {
         List<Delivery> deliveries = new ArrayList<>();
         String line;
         try {
@@ -177,19 +173,18 @@ public class Main {
 
                 deliveries.add(delivery);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return deliveries;
     }
 
-    private static List<Match> getMatchData() {
+    private static List<Match> getMatchesData() {
         List<Match> matches = new ArrayList<>();
         String line;
         try {
             BufferedReader br = new BufferedReader(new FileReader("matches.csv"));
-            while ((line=br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
 
                 Match match = new Match();
