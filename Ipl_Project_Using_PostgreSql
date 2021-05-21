@@ -1,0 +1,14 @@
+1) Number of matches played per year of all the years in IPL.
+>> select season , count(season) from ipl_project.matches group by season;
+
+2) Number of matches won of all teams over all the years of IPL.
+>> select winner , count(winner) from ipl_project.matches group by winner;
+
+3) For the year 2016 get the extra runs conceded per team.
+>> select bowling_team, sum(extra_runs) from deliveries where match_id in(select id from ipl_project.matches where season=2016) group by bowling_team;
+
+4) For the year 2015 get the top economical bowlers.
+>> select bowler,(sum(total_runs) / ((sum(match_over)*6+sum(ball))/6)) as economy from deliveries where match_id in (select id from ipl_project.matches where season=2015) group by bowler order by economy desc limit 1;
+
+5) Number Of Matches Played In Each City
+>> select city , count(city) from ipl_project.matches group by city;
