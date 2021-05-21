@@ -3,9 +3,7 @@ package com.tushar;
 import com.tushar.Model.Delivery;
 import com.tushar.Model.Match;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 class ComparatorClass implements Comparator {
@@ -16,18 +14,18 @@ class ComparatorClass implements Comparator {
 }
 
 public class Main {
-    public static final int DELIVERY_BLOWING_TEAM = 3;
-    public static final int DELIVERY_TOTAL_RUN = 17;
-    public static final int DELIVERY_EXTRA_RUN = 16;
-    public static final int DELIVERY_BLOWER = 8;
-    public static final int DELIVERY_BALL = 5;
-    public static final int DELIVERY_OVER = 4;
-    public static final int DELIVERY_MATCH_ID = 0;
-    public static final int MATCH_WINNER = 10;
-    public static final int MATCH_TOSS_WINNER = 6;
-    public static final int SEASON = 1;
-    public static final int MATCH_ID = 0;
-    public static final int MATCH_CITY = 2;
+    public static final int DELIVERY_BLOWING_TEAM = 4;
+    public static final int DELIVERY_TOTAL_RUN = 18;
+    public static final int DELIVERY_EXTRA_RUN = 17;
+    public static final int DELIVERY_BLOWER = 9;
+    public static final int DELIVERY_BALL = 6;
+    public static final int DELIVERY_OVER = 5;
+    public static final int DELIVERY_MATCH_ID = 1;
+    public static final int MATCH_WINNER = 11;
+    public static final int MATCH_TOSS_WINNER = 7;
+    public static final int SEASON = 2;
+    public static final int MATCH_ID = 1;
+    public static final int MATCH_CITY = 3;
 
     public static void main(String[] args) {
         List<Match> matches = getMatchesData();
@@ -156,47 +154,46 @@ public class Main {
 
     private static List<Delivery> getDeliveriesData() {
         List<Delivery> deliveries = new ArrayList<>();
-        String line;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("deliveries.csv"));
-            while ((line = br.readLine()) != null) {
-                String[] fields = line.split(",");
-
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ipl_project", "root", "Tushar@420");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from deliveries");
+            while (resultSet.next()) {
                 Delivery delivery = new Delivery();
-                delivery.setMatchId(fields[DELIVERY_MATCH_ID]);
-                delivery.setOver(fields[DELIVERY_OVER]);
-                delivery.setBall(fields[DELIVERY_BALL]);
-                delivery.setBlower(fields[DELIVERY_BLOWER]);
-                delivery.setExtraRuns(fields[DELIVERY_EXTRA_RUN]);
-                delivery.setTotalRuns(fields[DELIVERY_TOTAL_RUN]);
-                delivery.setBlowingTeam(fields[DELIVERY_BLOWING_TEAM]);
+                delivery.setMatchId(resultSet.getString(DELIVERY_MATCH_ID));
+                delivery.setOver(resultSet.getString(DELIVERY_OVER));
+                delivery.setBall(resultSet.getString(DELIVERY_BALL));
+                delivery.setBlower(resultSet.getString(DELIVERY_BLOWER));
+                delivery.setExtraRuns(resultSet.getString(DELIVERY_EXTRA_RUN));
+                delivery.setTotalRuns(resultSet.getString(DELIVERY_TOTAL_RUN));
+                delivery.setBlowingTeam(resultSet.getString(DELIVERY_BLOWING_TEAM));
 
                 deliveries.add(delivery);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return deliveries;
     }
 
+
     private static List<Match> getMatchesData() {
         List<Match> matches = new ArrayList<>();
-        String line;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("matches.csv"));
-            while ((line = br.readLine()) != null) {
-                String[] fields = line.split(",");
-
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ipl_project", "root", "Tushar@420");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from matches");
+            while (resultSet.next()) {
                 Match match = new Match();
-                match.setId(fields[MATCH_ID]);
-                match.setSeason(fields[SEASON]);
-                match.setTossWinner(fields[MATCH_TOSS_WINNER]);
-                match.setWinner(fields[MATCH_WINNER]);
-                match.setCity(fields[MATCH_CITY]);
+                match.setId(resultSet.getString(MATCH_ID));
+                match.setSeason(resultSet.getString(SEASON));
+                match.setTossWinner(resultSet.getString(MATCH_TOSS_WINNER));
+                match.setWinner(resultSet.getString(MATCH_WINNER));
+                match.setCity(resultSet.getString(MATCH_CITY));
 
                 matches.add(match);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return matches;
