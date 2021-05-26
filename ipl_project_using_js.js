@@ -1,5 +1,6 @@
 
 
+
 var matches= [];
 var deliveries = [];
 
@@ -23,11 +24,109 @@ const DELIVERY_MATCH_ID = 0;
 getMatchesData();
 getDeliveriesData();
 // findNumberOfMatchesPlayedPerSeason(matches);
-findNumberOfMatchesWonByTeam(matches);
+// findNumberOfMatchesWonByTeam(matches);
 // findExtraRunsConcededPerTeamIn2016(matches, deliveries);
 
+findMostEconomicalBlowerIn2015(matches, deliveries);
+
+// findMatchesPlayedInEachCity(matches);
 
 
+
+function findMostEconomicalBlowerIn2015(matches,deliveries) {
+    let deliveriesDataIn2015 = [];
+    let matchIdIn2015 = [];
+    let oversBolledByBlower = [];
+    let totalRunsGaveByBlower = [];
+    let economyRateOfBlower = [];
+
+    matches.forEach(match => {
+        if (match.season == 2015) {
+            matchIdIn2015.push(match.id);
+        }
+    });
+    // console.log(matchIdIn2015);
+
+    let blowerNameIn2015 = new Set();
+    deliveries.forEach(delivery => {
+        if (matchIdIn2015.includes(delivery.matchId)) {
+            deliveriesDataIn2015.push(delivery);
+            blowerNameIn2015.add(delivery.blower);
+        }
+    });
+    // console.log(blowerNameIn2015);
+
+
+    deliveriesDataIn2015.forEach(delivery => {
+
+        if (oversBolledByBlower[delivery.blower] == undefined) {
+            let overs = (parseInt(delivery.over) * 6 + parseInt(delivery.ball)) / 6;
+            oversBolledByBlower[delivery.blower] = overs;
+        } else {
+            let overs = (6 * (parseInt(delivery.over) + oversBolledByBlower[delivery.blower])) / 6;
+            oversBolledByBlower[delivery.blower]= overs;
+        }
+    });
+    // console.log(oversBolledByBlower);
+    
+    deliveriesDataIn2015.forEach(delivery => {
+        if (totalRunsGaveByBlower[delivery.blower] == undefined) {
+            totalRunsGaveByBlower[delivery.blower] = parseInt(delivery.totalRuns);
+        } else {
+            totalRunsGaveByBlower[delivery.blower] = totalRunsGaveByBlower[delivery.blower] + parseInt(delivery.totalRuns);
+        }
+
+        // console.log(totalRunsGaveByBlower);
+
+        blowerNameIn2015.forEach(blowerName => {
+            if (totalRunsGaveByBlower[blowerName] == undefined || oversBolledByBlower[blowerName] == undefined) {
+            } else {
+                let economy = totalRunsGaveByBlower[blowerName] / oversBolledByBlower[blowerName];
+                var object= new Object();
+                object.blowerName=economy;
+                economyRateOfBolower[blowerName] = economy;
+            }
+        });
+
+        console.log(economyRateOfBlower);
+    });
+    economyRateOfBlower.sort((a,b) => a[1]-b[1]);
+    console.log(economyRateOfBlower[1]);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function findMatchesPlayedInEachCity(matches) {
+    let numberOfMatchesPlayedInCity = [];
+    matches.shift();
+    matches.pop();
+    
+    matches.forEach(match => {
+        if(match.city.length>0) {
+            if (numberOfMatchesPlayedInCity[match.city] == undefined ) {
+                numberOfMatchesPlayedInCity[match.city]=1;
+            } else {
+                numberOfMatchesPlayedInCity[match.city]= numberOfMatchesPlayedInCity[match.city] + 1;
+            }
+        }
+    });
+    console.log(numberOfMatchesPlayedInCity);
+}
 
 function findNumberOfMatchesWonByTeam(matches) {
     console.log("\nNo of matches won by team ");
@@ -47,64 +146,20 @@ function findNumberOfMatchesWonByTeam(matches) {
     console.log(numberOfMatchesWonByTeam);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function findNumberOfMatchesPlayedPerSeason(matches) {
     console.log("\n Number Of Matches Played Per Season:");
     let numberOfMatchesPerSeason = [];
     
     matches.forEach(match => {
-        if(numberOfMatchesPerSeason[match.season] == undefined) {
-            numberOfMatchesPerSeason[match.season] = 1;
-        } else  {
-            numberOfMatchesPerSeason[match.season] = numberOfMatchesPerSeason[match.season] + 1;
-        }
+        if (match.season.length==4) {
+            if(numberOfMatchesPerSeason[match.season] == undefined) {
+                numberOfMatchesPerSeason[match.season] = 1;
+            } else  {
+                numberOfMatchesPerSeason[match.season] = numberOfMatchesPerSeason[match.season] + 1;
+            }
+        };
+        console.log(numberOfMatchesPerSeason);
     });
-    for(var key in numberOfMatchesPerSeason) {
-        if (key.length==4) {
-            console.log(key +" = "+ numberOfMatchesPerSeason[key]);      
-        }
-    }
 }
 
 function findExtraRunsConcededPerTeamIn2016(matches, deliveries) {
@@ -138,7 +193,7 @@ function findExtraRunsConcededPerTeamIn2016(matches, deliveries) {
 
 function getDeliveriesData() {
     const fs = require('fs');
-    var deliveriesDataInBuffer = fs.readFileSync('deliveries.csv');
+    var deliveriesDataInBuffer = fs.readFileSync("deliveries.csv");
     var deliveriesDataArray = deliveriesDataInBuffer.toString().split(/\r?\n/);
     deliveriesDataArray.forEach(element => {
         var delivery={};
@@ -155,7 +210,7 @@ function getDeliveriesData() {
 
 function getMatchesData() {
     const fs = require('fs');
-    var matchesDataInBuffer = fs.readFileSync('matches.csv');
+    var matchesDataInBuffer = fs.readFileSync("matches.csv");
     var matchesDataArray = matchesDataInBuffer.toString().split(/\r?\n/);
     matchesDataArray.forEach(element => {
         var match={};
