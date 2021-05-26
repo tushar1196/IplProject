@@ -1,9 +1,5 @@
-
-
-
 var matches = [];
 var deliveries = [];
-
 const MATCH_WINNER = 10;
 const MATCH_TOSS_WINNER = 6;
 const SEASON = 1;
@@ -17,21 +13,13 @@ const DELIVERY_BALL = 5;
 const DELIVERY_OVER = 4;
 const DELIVERY_MATCH_ID = 0;
 
-
-
-
-
 getMatchesData();
 getDeliveriesData();
 // findNumberOfMatchesPlayedPerSeason(matches);
 // findNumberOfMatchesWonByTeam(matches);
 // findExtraRunsConcededPerTeamIn2016(matches, deliveries);
-
 findMostEconomicalBlowerIn2015(matches, deliveries);
-
 // findMatchesPlayedInEachCity(matches);
-
-
 
 function findMostEconomicalBlowerIn2015(matches, deliveries) {
     let deliveriesDataIn2015 = [];
@@ -180,7 +168,7 @@ function findExtraRunsConcededPerTeamIn2016(matches, deliveries) {
 
 function getDeliveriesData() {
     const fs = require('fs');
-    var deliveriesDataInBuffer = fs.readFileSync("/home/tushar/Mountblue/Ipl project/ipl_project/deliveries.csv");
+    var deliveriesDataInBuffer = fs.readFileSync("deliveries.csv");
     var deliveriesDataArray = deliveriesDataInBuffer.toString().split(/\r?\n/);
     deliveriesDataArray.forEach(element => {
         var delivery = {};
@@ -197,7 +185,7 @@ function getDeliveriesData() {
 
 function getMatchesData() {
     const fs = require('fs');
-    var matchesDataInBuffer = fs.readFileSync("/home/tushar/Mountblue/Ipl project/ipl_project/matches.csv");
+    var matchesDataInBuffer = fs.readFileSync("matches.csv");
     var matchesDataArray = matchesDataInBuffer.toString().split(/\r?\n/);
     matchesDataArray.forEach(element => {
         var match = {};
