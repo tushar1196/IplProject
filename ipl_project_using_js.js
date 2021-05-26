@@ -1,3 +1,5 @@
+
+
 var matches= [];
 var deliveries = [];
 
@@ -20,7 +22,30 @@ const DELIVERY_MATCH_ID = 0;
 
 getMatchesData();
 getDeliveriesData();
-findExtraRunsConcededPerTeamIn2016(matches, deliveries);
+// findNumberOfMatchesPlayedPerSeason(matches);
+findNumberOfMatchesWonByTeam(matches);
+// findExtraRunsConcededPerTeamIn2016(matches, deliveries);
+
+
+
+
+function findNumberOfMatchesWonByTeam(matches) {
+    console.log("\nNo of matches won by team ");
+    matches.shift();
+    matches.pop();
+    let numberOfMatchesWonByTeam = [];
+
+    matches.forEach(match => {
+        if (match.winner.length>0) {
+            if (numberOfMatchesWonByTeam[match.winner] == undefined) {
+                numberOfMatchesWonByTeam[match.winner]= 1;
+            } else {
+                numberOfMatchesWonByTeam[match.winner]= numberOfMatchesWonByTeam[match.winner] + 1;
+            }
+        };    
+    });    
+    console.log(numberOfMatchesWonByTeam);
+}
 
 
 
@@ -54,6 +79,62 @@ findExtraRunsConcededPerTeamIn2016(matches, deliveries);
 
 
 
+
+
+
+
+
+
+
+
+
+
+function findNumberOfMatchesPlayedPerSeason(matches) {
+    console.log("\n Number Of Matches Played Per Season:");
+    let numberOfMatchesPerSeason = [];
+    
+    matches.forEach(match => {
+        if(numberOfMatchesPerSeason[match.season] == undefined) {
+            numberOfMatchesPerSeason[match.season] = 1;
+        } else  {
+            numberOfMatchesPerSeason[match.season] = numberOfMatchesPerSeason[match.season] + 1;
+        }
+    });
+    for(var key in numberOfMatchesPerSeason) {
+        if (key.length==4) {
+            console.log(key +" = "+ numberOfMatchesPerSeason[key]);      
+        }
+    }
+}
+
+function findExtraRunsConcededPerTeamIn2016(matches, deliveries) {
+
+    console.log( "Extra Runs Conceded Per Team In 2016:");
+
+    let deliveriesDataIn2016 = [];
+    let matchIdsIn2016 = [];
+    let extraRunsConceded = [];
+    
+    matches.forEach(match => {
+        if (match.season == 2016) {
+            matchIdsIn2016.push(match.id);
+        }
+    });
+    deliveries.forEach(delivery => {
+        if (matchIdsIn2016.includes(delivery.matchId)) {
+            deliveriesDataIn2016.push(delivery);
+        }
+    });
+    deliveriesDataIn2016.forEach(delivery => {
+        if (extraRunsConceded[delivery.blowingTeam] == undefined) {
+            extraRunsConceded[delivery.blowingTeam] = parseInt(delivery.extraRuns);
+        } else {
+            extraRunsConceded[delivery.blowingTeam] = extraRunsConceded[delivery.blowingTeam]+ parseInt(delivery.extraRuns);
+        }
+        
+    });
+    console.log(extraRunsConceded);
+}
 
 function getDeliveriesData() {
     const fs = require('fs');
